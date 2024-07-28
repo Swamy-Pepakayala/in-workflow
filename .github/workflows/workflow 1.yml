@@ -150,21 +150,16 @@ on:
 jobs:
   acquire-lock:
     runs-on: self-hosted
-    outputs:
-      lock-acquired: ${{ steps.acquire.outputs.lock-acquired }}
     steps:
       - name: Acquire lock
-        id: acquire
+        id: acquire-lock
         run: |
           LOCK_FILE=/tmp/workflow.lock
-          if [ -f $LOCK_FILE ]; then
-            echo "Another workflow is running. Exiting."
-            exit 1
-          else
-            touch $LOCK_FILE
-            echo "lock-acquired=true" >> $GITHUB_OUTPUT
-          fi
-
+          while [ -f $LOCK_FILE ]; do
+            echo "Another workflow running. waiting..."
+            sleep 10
+          done
+          touch $LOCK_FILE
   job1:
     runs-on: self-hosted
     needs: acquire-lock
@@ -195,8 +190,6 @@ jobs:
 
   release-lock:
     runs-on: self-hosted
-    needs: job3
-    if: needs.acquire-lock.outputs.lock-acquired == 'true'
     steps:
       - name: Release lock
         run: |
