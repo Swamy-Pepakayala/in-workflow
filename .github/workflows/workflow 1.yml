@@ -142,7 +142,7 @@
 #           LOCK_FILE=/tmp/workflow.lock
 #           rm -f $LOCK_FILE
 
-name: Workflow-6
+name: Workflow-1
 
 on:
   workflow_dispatch:
