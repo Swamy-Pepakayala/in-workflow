@@ -147,6 +147,10 @@ name: Workflow-1
 on:
   workflow_dispatch:
 
+concurrency:
+  group: ci_workflow_group
+  cancel-in-progress: false
+
 jobs:
   acquire-lock:
     runs-on: self-hosted
