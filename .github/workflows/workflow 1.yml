@@ -155,15 +155,28 @@ jobs:
   acquire-lock:
     runs-on: self-hosted
     steps:
-      - name: Acquire lock
-        id: acquire-lock
-        run: |
-          LOCK_FILE=/tmp/workflow.lock
-          while [ -f $LOCK_FILE ]; do
-            echo "Another workflow running. waiting..."
-            sleep 10
-          done
-          touch $LOCK_FILE
+    # - name: Checkout code
+    #   uses: actions/checkout@v2
+
+    - name: Acquire lock with timeout
+      id: acquire-lock
+      run: |
+        LOCK_FILE=/tmp/workflow.lock
+        MAX_WAIT_TIME=60  # Maximum wait time in seconds (5 minutes)
+        WAIT_INTERVAL=10   # Interval between lock check attempts in seconds
+        TOTAL_WAITED=0
+
+        while [ -f $LOCK_FILE ]; do
+          echo "Another workflow is running. Waiting..."
+          sleep $WAIT_INTERVAL
+          TOTAL_WAITED=$((TOTAL_WAITED + WAIT_INTERVAL))
+          if [ $TOTAL_WAITED -ge $MAX_WAIT_TIME ]; then
+            echo "Timeout reached. Failing the job."
+            exit 1
+          fi
+        done
+        touch $LOCK_FILE
+        
   job1:
     runs-on: self-hosted
     needs: acquire-lock
@@ -196,6 +209,7 @@ jobs:
     needs: job3
     steps:
       - name: Release lock
+        if: always()
         run: |
           LOCK_FILE=/tmp/workflow.lock
           rm -f $LOCK_FILE
