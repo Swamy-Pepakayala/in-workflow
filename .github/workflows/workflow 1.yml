@@ -162,7 +162,7 @@ jobs:
           touch $LOCK_FILE
   job1:
     runs-on: self-hosted
-    needs: acquire-lock
+ #   needs: acquire-lock
     steps:
       - name: Step 1
         run: |
@@ -189,7 +189,7 @@ jobs:
 
   release-lock:
     runs-on: self-hosted
-    needs: job3
+  #  needs: job3
     steps:
       - name: Release lock
         run: |
