@@ -52,7 +52,7 @@ on:
 
 jobs:
   lock_job:
-    runs-on: windows-latest
+    runs-on: self-hosted
     outputs:
       lock_acquired: ${{ steps.lock_status.outputs.lock_acquired }}
     steps:
@@ -69,7 +69,7 @@ jobs:
           echo "::set-output name=lock_acquired::true"
 
   job1:
-    runs-on: windows-latest
+    runs-on: self-hosted
     # needs: lock_job
     steps:
       - name: Step 1
@@ -78,7 +78,7 @@ jobs:
           Start-Sleep -Seconds 10
 
   job2:
-    runs-on: windows-latest
+    runs-on: self-hosted
     needs: [job1]
     steps:
       - name: Step 2
@@ -88,7 +88,7 @@ jobs:
 
   job3:
     runs-on: self-hosted
-    needs: [lock_job, job1]
+    needs: [job1]
     steps:   
       - name: Step 3
         run: |
@@ -97,14 +97,14 @@ jobs:
 
   job4:
     runs-on: self-hosted
-    needs: [lock_job, job2, job3]
+    needs: [job1]
     steps:     
       - name: Step 4
         run: echo "This is Workflow 1 - Job 4"
 
   release_lock:
     runs-on: self-hosted
-    needs: [job4]
+    # needs: [job4]
     if: always()
     steps:
       - name: Release lock
