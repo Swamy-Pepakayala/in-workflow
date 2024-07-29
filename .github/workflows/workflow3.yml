@@ -8,15 +8,14 @@ jobs:
     runs-on: runner1
     # needs: lock_job
     steps:
-      - name: Acquire lock
-        id: acquire-lock
+      - name: Check if lock file exists
         run: |
-          LOCK_FILE=/tmp/workflow.lock
-          while [ -f $LOCK_FILE ]; do
-            echo "Another workflow running. waiting..."
-            sleep 10
-          done
-          touch $LOCK_FILE
+          if [ -f /path/to/lockfile ]; then
+            echo "Lock file exists. Exiting."
+            exit 1
+          fi
+      - name: Create lock file
+        run: touch /path/to/lockfile
           
       - name: Step 1
         run: |
@@ -46,6 +45,9 @@ jobs:
         run: |
           LOCK_FILE=/tmp/workflow.lock
           rm -f $LOCK_FILE
+
+      - name: Remove lock file
+        run: rm /path/to/lockfile
           
 
   # job4:
