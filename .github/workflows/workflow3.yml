@@ -29,15 +29,16 @@
 
 
 
-name: Workflow-3
+name: Workflow-1
 
 on:
   workflow_dispatch:
-  pull_request:
 
 jobs:
   acquire-lock:
     runs-on: self-hosted
+    outputs:
+      lock-acquired: ${{ steps.acquire-lock.outputs.lock-acquired }}
     steps:
       - name: Acquire lock
         id: acquire-lock
@@ -48,10 +49,12 @@ jobs:
             sleep 10
           done
           touch $LOCK_FILE
+          echo "::set-output name=lock-acquired::true"
 
-  job1:
+  example-job1:
     runs-on: self-hosted
     needs: acquire-lock
+    if: ${{ needs.acquire-lock.outputs.lock-acquired == 'true' }}
     steps:
       - name: Step 1
         run: |
@@ -59,9 +62,10 @@ jobs:
           cat /proc/sys/kernel/hostname
           sleep 60
 
-  job2:
+  example-job2:
     runs-on: self-hosted
-    needs: job1
+    needs: example-job1
+    if: ${{ needs.acquire-lock.outputs.lock-acquired == 'true' }}
     steps:
       - name: Step 2
         run: |
@@ -69,9 +73,10 @@ jobs:
           cat /proc/sys/kernel/hostname
           sleep 60
 
-  job3:
+  example-job3:
     runs-on: self-hosted
-    needs: job2
+    needs: example-job2
+    if: ${{ needs.acquire-lock.outputs.lock-acquired == 'true' }}
     steps:
       - name: Step 3
         run: |
@@ -81,10 +86,11 @@ jobs:
 
   release-lock:
     runs-on: self-hosted
-    needs: [job1, job2, job3]
+    needs: [example-job3]
     if: always()
     steps:
       - name: Release lock
         run: |
           LOCK_FILE=/tmp/workflow.lock
           rm -f $LOCK_FILE
+
