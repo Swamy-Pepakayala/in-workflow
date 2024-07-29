@@ -45,7 +45,7 @@ jobs:
           
 
   job2:
-    runs-on: runner1
+    runs-on: runner2
 #    needs: [job1]
     steps:
       - name: Step 2
@@ -54,7 +54,7 @@ jobs:
           
 
   job3:
-    runs-on: runner1
+    runs-on: runner3
   #  needs: [job1]
     steps:   
       - name: Step 3
@@ -63,7 +63,7 @@ jobs:
           
 
   job4:
-    runs-on: runner1
+    runs-on: runner4
   #  needs: [job1]
     steps:   
       - name: Step 3
