@@ -1,4 +1,4 @@
-name: Workflow-2
+name: Lock-2
 
 on:
   workflow_dispatch:  
@@ -29,7 +29,7 @@ jobs:
           
 ########################## multiple jobs########
 
-# name: Workflow-2
+# name: LOck-2
 
 # on:
 #   workflow_dispatch:
@@ -114,7 +114,7 @@ jobs:
 
 ########################################
 
-# name: Workflow 2
+# name: Lock-2
 
 # on:
 #   workflow_dispatch:
