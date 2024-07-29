@@ -42,7 +42,7 @@ jobs:
       - name: Step 1
         run: |
           echo "This is Workflow 1 - Job 1"
-          Sleep 10
+          
 
   job2:
     runs-on: runner1
@@ -51,7 +51,7 @@ jobs:
       - name: Step 2
         run: |
           echo "This is Workflow 1 - Job 2"
-          sleep 10
+          
 
   job3:
     runs-on: runner1
@@ -60,7 +60,7 @@ jobs:
       - name: Step 3
         run: |
           echo "This is Workflow 1 - Job 3"
-          Seconds 20
+          
 
   job4:
     runs-on: runner1
