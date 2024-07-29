@@ -1,41 +1,10 @@
-name: Workflow-3
-
-on:
-  workflow_dispatch:  
-
-jobs:
-  example-job1:
-    runs-on: self-hosted
-    steps:
-      - name: Acquire lock
-        id: acquire-lock
-        run: |
-          LOCK_FILE=/tmp/workflow.lock
-          while [ -f $LOCK_FILE ]; do
-            echo "Another workflow running. waiting..."
-            sleep 10
-          done
-          touch $LOCK_FILE
-      - name: Step 1
-        run: |
-         echo "This is Workflow 3 - Step 1"
-         cat /proc/sys/kernel/hostname
-         sleep 60
-      - name: Release lock
-        if: always()
-        run: |
-          LOCK_FILE=/tmp/workflow.lock
-          rm -f $LOCK_FILE
-
-
-
 # name: Workflow-3
 
 # on:
-#   workflow_dispatch:
+#   workflow_dispatch:  
 
 # jobs:
-#   acquire-lock:
+#   example-job1:
 #     runs-on: self-hosted
 #     steps:
 #       - name: Acquire lock
@@ -47,39 +16,75 @@ jobs:
 #             sleep 10
 #           done
 #           touch $LOCK_FILE
-
-#   job1:
-#     runs-on: self-hosted
-#     needs: acquire-lock
-#     if: needs.acquire-lock.outputs.lock-acquired == 'true'
-#     steps:
 #       - name: Step 1
 #         run: |
-#           echo "This is Workflow 6 - Job 1"
-#           cat /proc/sys/kernel/hostname
-
-#   job2:
-#     runs-on: self-hosted
-#     needs: job1
-#     steps:
-#       - name: Step 2
-#         run: |
-#           echo "This is Workflow 3 - Job 2"
-#           cat /proc/sys/kernel/hostname
-
-#   job3:
-#     runs-on: self-hosted
-#     needs: job2
-#     steps:
-#       - name: Step 3
-#         run: |
-#           echo "This is Workflow 3 - Job 3"
-#           cat /proc/sys/kernel/hostname
-
-#   release-lock:
-#     runs-on: self-hosted
-#     steps:
+#          echo "This is Workflow 3 - Step 1"
+#          cat /proc/sys/kernel/hostname
+#          sleep 60
 #       - name: Release lock
+#         if: always()
 #         run: |
 #           LOCK_FILE=/tmp/workflow.lock
-#           rm -f $LOCK_FILE 
+#           rm -f $LOCK_FILE
+
+
+
+name: Workflow-1
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+jobs:
+  acquire-lock:
+    runs-on: self-hosted
+    steps:
+      - name: Acquire lock
+        id: acquire-lock
+        run: |
+          LOCK_FILE=/tmp/workflow.lock
+          while [ -f $LOCK_FILE ]; do
+            echo "Another workflow running. waiting..."
+            sleep 10
+          done
+          touch $LOCK_FILE
+
+  job1:
+    runs-on: self-hosted
+    needs: acquire-lock
+    steps:
+      - name: Step 1
+        run: |
+          echo "This is Workflow 1 - Step 1"
+          cat /proc/sys/kernel/hostname
+          sleep 60
+
+  job2:
+    runs-on: self-hosted
+    needs: job1
+    steps:
+      - name: Step 2
+        run: |
+          echo "This is Workflow 1 - Step 2"
+          cat /proc/sys/kernel/hostname
+          sleep 60
+
+  job3:
+    runs-on: self-hosted
+    needs: job2
+    steps:
+      - name: Step 3
+        run: |
+          echo "This is Workflow 1 - Step 3"
+          cat /proc/sys/kernel/hostname
+          sleep 60
+
+  release-lock:
+    runs-on: self-hosted
+    needs: [job1, job2, job3]
+    if: always()
+    steps:
+      - name: Release lock
+        run: |
+          LOCK_FILE=/tmp/workflow.lock
+          rm -f $LOCK_FILE
