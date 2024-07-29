@@ -35,23 +35,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  # lock_job:
-  #   runs-on: self-hosted
-  #   outputs:
-  #     lock_acquired: ${{ steps.lock_status.outputs.lock_acquired }}
-  #   steps:
-  #     - name: Acquire lock
-  #       id: lock_status
-  #       run: |
-  #         $lockFile = "C:\Temp\workflow.lock"
-  #         while (Test-Path $lockFile) {
-  #           echo "Another workflow is running. Waiting..."
-  #           Start-Sleep -Seconds 10
-  #         }
-  #         New-Item -ItemType File -Path $lockFile
-  #         echo "Lock acquired."
-  #         echo "::set-output name=lock_acquired::true"
-
   job1:
     runs-on: self-hosted
     # needs: lock_job
@@ -85,17 +68,6 @@ jobs:
     steps:     
       - name: Step 4
         run: echo "This is Workflow 1 - Job 4"
-
-  # release_lock:
-  #   runs-on: self-hosted
-  #   # needs: [job4]
-  #   if: always()
-  #   steps:
-  #     - name: Release lock
-  #       run: |
-  #         $lockFile = "C:\Temp\workflow.lock"
-  #         Remove-Item -Path $lockFile
-  #         echo "Lock released."
 
 
 
