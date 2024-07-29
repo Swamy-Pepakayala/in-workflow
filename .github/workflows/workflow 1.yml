@@ -45,7 +45,7 @@ jobs:
           Sleep 10
 
   job2:
-    runs-on: runner2
+    runs-on: runner1
 #    needs: [job1]
     steps:
       - name: Step 2
@@ -54,7 +54,7 @@ jobs:
           sleep 10
 
   job3:
-    runs-on: runner3
+    runs-on: runner1
   #  needs: [job1]
     steps:   
       - name: Step 3
@@ -63,7 +63,7 @@ jobs:
           Seconds 20
 
   job4:
-    runs-on: runner4
+    runs-on: runner1
   #  needs: [job1]
     steps:   
       - name: Step 3
