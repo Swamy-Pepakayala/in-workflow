@@ -10,12 +10,12 @@ jobs:
     steps:
       - name: Check if lock file exists
         run: |
-          if [ -f /path/to/lockfile ]; then
+          if [ -f /tmp/workflow.lock]; then
             echo "Lock file exists. Exiting."
             exit 1
           fi
       - name: Create lock file
-        run: touch /path/to/lockfile
+        run: touch /tmp/workflow.lock
           
       - name: Step 1
         run: |
@@ -47,7 +47,7 @@ jobs:
           rm -f $LOCK_FILE
 
       - name: Remove lock file
-        run: rm /path/to/lockfile
+        run: rm /tmp/workflow.lock
           
 
   # job4:
