@@ -39,12 +39,7 @@ jobs:
         run: |
           echo "This is Workflow 1 - Job 3"
         
-      - name: Release lock
-        if: always()
-        run: |
-          LOCK_FILE=/tmp/workflow.lock
-          rm -f $LOCK_FILE
-
+      
 
 
 
