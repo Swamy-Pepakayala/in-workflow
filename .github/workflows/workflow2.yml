@@ -21,7 +21,7 @@ jobs:
           echo "This is Workflow 2 - Job 2"
           
   job3:
-    runs-on: runner2
+    runs-on: runner3
  #   needs: [job1]
     steps:   
       - name: Step 3
@@ -30,7 +30,7 @@ jobs:
           
 
   job4:
-    runs-on: runner2
+    runs-on: runner4
  #   needs: [job1]
     steps:     
       - name: Step 4
