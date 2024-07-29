@@ -10,7 +10,7 @@ jobs:
       - name: Step 1
         run: |
           echo "This is Workflow 2 - Job 1"
-         # Start-Sleep -Seconds 10
+          sleep 10
 
   job2:
     runs-on: runner2
@@ -19,20 +19,20 @@ jobs:
       - name: Step 2
         run: |
           echo "This is Workflow 2 - Job 2"
-      #    Start-Sleep -Seconds 10
+          Sleep 10
 
- #  job3:
- #    runs-on: self-hosted
- # #   needs: [job1]
- #    steps:   
- #      - name: Step 3
- #        run: |
- #          echo "This is Workflow 2 - Job 3"
- #       #   Start-Sleep -Seconds 20
+  job3:
+    runs-on: runner3
+ #   needs: [job1]
+    steps:   
+      - name: Step 3
+        run: |
+          echo "This is Workflow 2 - Job 3"
+          Sleep 20
 
- #  job4:
- #    runs-on: self-hosted
- # #   needs: [job1]
- #    steps:     
- #      - name: Step 4
- #        run: echo "This is Workflow 2 - Job 4"
+  job4:
+    runs-on: runner4
+ #   needs: [job1]
+    steps:     
+      - name: Step 4
+        run: echo "This is Workflow 2 - Job 4"
