@@ -13,7 +13,7 @@ jobs:
       
   job2:
     runs-on: runner2
-    needs: [job1]
+    # needs: [job1]
     steps:
       - name: Step 2
         run: |
@@ -22,7 +22,7 @@ jobs:
 
   job3:
     runs-on: runner3
-    needs: [job2]
+    # needs: [job2]
     steps:   
       - name: Step 3
         run: |
