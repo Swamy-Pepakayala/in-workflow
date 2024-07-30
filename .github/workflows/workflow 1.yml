@@ -3,9 +3,9 @@ name: Workflow 1
 on:
   workflow_dispatch:
 
-  # concurrency:
-  # group: ci_workflow_group
-  # cancel-in-progress: false
+# concurrency:
+#   group: ci_workflow_group
+#   cancel-in-progress: false
 
 jobs:
   job1:
